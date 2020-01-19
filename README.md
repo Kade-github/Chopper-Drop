@@ -38,6 +38,6 @@ how does this work?
 
 You might ask, well heres how.
 
-Every 10 minutes it calls a chopper, when it lands (it lands where mtf spawn) it will spawn in all the items you configured!
+Every 10 (by default) minutes it calls a chopper, when it lands (it lands where mtf spawn) it will spawn in all the items you configured!
 
 That's how :D
