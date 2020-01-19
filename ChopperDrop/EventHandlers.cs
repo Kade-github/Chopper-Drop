@@ -14,14 +14,17 @@ namespace ChopperDrop
         public Plugin pl;
         public ChopperDrops allowedItems;
 
+        public int time;
+
         public List<CoroutineHandle> coroutines = new List<CoroutineHandle>();
 
         public bool roundStarted = false;
 
-        public EventHandlers(Plugin plugin, ChopperDrops drops) 
+        public EventHandlers(Plugin plugin, ChopperDrops drops, int tim) 
         { 
             pl = plugin;
             allowedItems = drops;
+            time = tim;
         }
 
         internal void RoundStart()
@@ -45,7 +48,7 @@ namespace ChopperDrop
             {
                 // Unity GARBAGE
                 Plugin.Info("Chopper thread waiting 10 minutes.");
-                yield return Timing.WaitForSeconds(600); // Wait 600 seconds (10 minutes)
+                yield return Timing.WaitForSeconds(time); // Wait seconds (10 minutes by defualt)
                 Plugin.Info("Spawning chopper!");
                 ChopperAutostart ca = UnityEngine.Object.FindObjectOfType<ChopperAutostart>(); // Call in the chopper
                 ca.SetState(true);

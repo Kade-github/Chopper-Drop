@@ -30,14 +30,16 @@ namespace ChopperDrop
             // We make our own dictionary stuff because the .GetStringDictionary of 'config' me and joker don't know how it works lol.
             string[] drops = Config.GetString("chopper_drops", "GrenadeFrag:4,Flashlight:1,GunMP7:4,GunUSP:2,Painkillers:4").Split(',');
             ChopperDrops cDrops = new ChopperDrops();
-            
+
+            int time = Config.GetInt("chopper_time", 600);
+
             foreach (string drop in drops)
             {
                 string[] d = drop.Split(':'); // d[0] = item, d[1] = amount
                 cDrops.AddToList(d[0], int.Parse(d[1]));
             }
 
-            EventHandlers = new EventHandlers(this, cDrops);
+            EventHandlers = new EventHandlers(this, cDrops, time);
             Events.RoundStartEvent += EventHandlers.RoundStart;
             Events.WaitingForPlayersEvent += EventHandlers.WaitingForPlayers;
 
