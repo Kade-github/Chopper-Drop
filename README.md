@@ -27,6 +27,12 @@ So, just put an item in there. And then its amount, then add a ',' and then do t
 
 **Do not add spaces in this though.**
 
+We also have `chopper_time` which is how long it takes for the chopper to come in, by default it is 600 seconds.
+
+Default:
+
+`chopper_time: 600`
+
 ## Functionality
 how does this work?
 
