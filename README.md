@@ -14,7 +14,9 @@ Chopper Drop is a Exiled plugin which emulates a Chopper Dropping supplys for MT
 `chopper_drops`
 The 'chopper_drops' config is a **dictonary.**
 Heres the default:
+
 `chopper_drops: GrenadeFrag:4,Flashlight:1,GunMP7:4,GunUSP:2,Painkillers:4`
+
 Lets break it down.
 
 The first value is, **'GrenadeFrag'** then it's value is **4.** It can be broke down into this:
