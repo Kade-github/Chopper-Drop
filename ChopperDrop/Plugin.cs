@@ -27,6 +27,9 @@ namespace ChopperDrop
 
         public override void OnEnable()
         {
+            if (!Config.GetBool("chopper_enable", true)) // Enable config
+                return;
+
             // We make our own dictionary stuff because the .GetStringDictionary of 'config' me and joker don't know how it works lol.
             string[] drops = Config.GetString("chopper_drops", "GrenadeFrag:4,Flashlight:1,GunMP7:4,GunUSP:2,Painkillers:4").Split(',');
             ChopperDrops cDrops = new ChopperDrops();

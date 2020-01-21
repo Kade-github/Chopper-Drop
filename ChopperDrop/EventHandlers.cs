@@ -50,8 +50,11 @@ namespace ChopperDrop
                 Plugin.Info("Chopper thread waiting 10 minutes.");
                 yield return Timing.WaitForSeconds(time); // Wait seconds (10 minutes by defualt)
                 Plugin.Info("Spawning chopper!");
-                ChopperAutostart ca = UnityEngine.Object.FindObjectOfType<ChopperAutostart>(); // Call in the chopper
-                ca.SetState(true);
+                ChopperAutostart ca = UnityEngine.Object.FindObjectOfType<ChopperAutostart>(); // Get the chopper
+                ca.SetState(true); // Call the chopper to come
+
+                foreach (ReferenceHub h in Plugin.GetHubs()) // Broadcast to everyone that a supply drop was called down.
+                    h.Broadcast(5, "<color=yellow>ALERT: A supply drop helicopter has been called down, all available MTF Units proceeded to the surface for supplys</color>");
 
                 yield return Timing.WaitForSeconds(15); // Wait 15 seconds
 
