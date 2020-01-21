@@ -33,6 +33,8 @@ Default:
 
 `chopper_time: 600`
 
+The next one is of course `chopper_enable` if it is set to false, then it doesn't enable the plugin.
+
 ## Functionality
 how does this work?
 
