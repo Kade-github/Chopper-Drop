@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using MEC;
 using System.Collections.Generic;
 using System.Linq;
@@ -75,7 +75,7 @@ namespace ChopperDrop
 
         public void SpawnItem(ItemType type, Vector3 pos, Vector3 rot)
         {
-            PlayerManager.localPlayer.GetComponent<Inventory>().SetPickup(type, -4.656647E+11f, pos, Quaternion.Euler(rot), 0, 0, 0);
+            PlayerManager.localPlayer.GetComponent<Inventory>().SetPickup(type, 60, pos, Quaternion.Euler(rot), 0, 0, 0);
         }
     }
 }
