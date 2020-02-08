@@ -73,9 +73,47 @@ namespace ChopperDrop
             }
         }
 
+        public int ItemDur(ItemType weapon)
+        {
+            
+            int COM15Ammo = 12;
+            int USPAmmo = 18;
+            int ARAmmo = 40;
+            int LogicerAmmo = 100;
+            int P90Ammo = 50;
+            int SMGAmmo = 35;
+            int Ammo762 = 25;
+            int Ammo9mm = 25;
+            int Ammo556 = 25;
+
+            switch (weapon)
+            {
+                case ItemType.GunCOM15:
+                    return COM15Ammo;
+                case ItemType.GunE11SR:
+                    return ARAmmo;
+                case ItemType.GunProject90:
+                    return P90Ammo;
+                case ItemType.GunMP7:
+                    return SMGAmmo;
+                case ItemType.GunLogicer:
+                    return LogicerAmmo;
+                case ItemType.GunUSP:
+                    return USPAmmo;
+                case ItemType.Ammo762:
+                    return Ammo762;
+                case ItemType.Ammo9mm:
+                    return Ammo9mm;
+                case ItemType.Ammo556:
+                    return Ammo556;
+                default:
+                    return 50;
+            }
+        }
+
         public void SpawnItem(ItemType type, Vector3 pos, Vector3 rot)
         {
-            PlayerManager.localPlayer.GetComponent<Inventory>().SetPickup(type, 60, pos, Quaternion.Euler(rot), 0, 0, 0);
+            PlayerManager.localPlayer.GetComponent<Inventory>().SetPickup(type, ItemDur(type), pos, Quaternion.Euler(rot), 0, 0, 0);
         }
     }
 }
