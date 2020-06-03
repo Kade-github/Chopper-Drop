@@ -15,16 +15,17 @@ namespace ChopperDrop
         public ChopperDrops allowedItems;
 
         public int time;
-
+        public string dropText;
         public List<CoroutineHandle> coroutines = new List<CoroutineHandle>();
 
         public bool roundStarted = false;
 
-        public EventHandlers(Plugin plugin, ChopperDrops drops, int tim) 
+        public EventHandlers(Plugin plugin, ChopperDrops drops, int tim, string dropTex) 
         { 
             pl = plugin;
             allowedItems = drops;
             time = tim;
+            dropText = dropTex;
         }
 
         internal void RoundStart()
@@ -54,7 +55,7 @@ namespace ChopperDrop
                 ca.SetState(true); // Call the chopper to come
 
                 foreach (ReferenceHub h in Plugin.GetHubs()) // Broadcast to everyone that a supply drop was called down.
-                    h.Broadcast(5, "<color=yellow>ALERT: A supply drop helicopter has been called down, all available MTF Units proceeded to the surface for supplys</color>");
+                    h.Broadcast(5, dropText);
 
                 yield return Timing.WaitForSeconds(15); // Wait 15 seconds
 
@@ -75,37 +76,26 @@ namespace ChopperDrop
 
         public int ItemDur(ItemType weapon)
         {
-            
-            int COM15Ammo = 12;
-            int USPAmmo = 18;
-            int ARAmmo = 40;
-            int LogicerAmmo = 100;
-            int P90Ammo = 50;
-            int SMGAmmo = 35;
-            int Ammo762 = 25;
-            int Ammo9mm = 25;
-            int Ammo556 = 25;
-
             switch (weapon)
             {
                 case ItemType.GunCOM15:
-                    return COM15Ammo;
+                    return 12;
                 case ItemType.GunE11SR:
-                    return ARAmmo;
+                    return 18;
                 case ItemType.GunProject90:
-                    return P90Ammo;
+                    return 50;
                 case ItemType.GunMP7:
-                    return SMGAmmo;
+                    return 35;
                 case ItemType.GunLogicer:
-                    return LogicerAmmo;
+                    return 100;
                 case ItemType.GunUSP:
-                    return USPAmmo;
+                    return 18;
                 case ItemType.Ammo762:
-                    return Ammo762;
+                    return 25;
                 case ItemType.Ammo9mm:
-                    return Ammo9mm;
+                    return 25;
                 case ItemType.Ammo556:
-                    return Ammo556;
+                    return 25;
                 default:
                     return 50;
             }
