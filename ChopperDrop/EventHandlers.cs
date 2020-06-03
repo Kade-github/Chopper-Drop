@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using EXILED;
+using EXILED.Extensions;
 
 namespace ChopperDrop
 {
@@ -54,7 +55,7 @@ namespace ChopperDrop
                 ChopperAutostart ca = UnityEngine.Object.FindObjectOfType<ChopperAutostart>(); // Get the chopper
                 ca.SetState(true); // Call the chopper to come
 
-                foreach (ReferenceHub h in Plugin.GetHubs()) // Broadcast to everyone that a supply drop was called down.
+                foreach (ReferenceHub h in Player.GetHubs()) // Broadcast to everyone that a supply drop was called down.
                     h.Broadcast(5, dropText);
 
                 yield return Timing.WaitForSeconds(15); // Wait 15 seconds
