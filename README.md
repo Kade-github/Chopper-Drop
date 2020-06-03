@@ -11,29 +11,13 @@ Chopper Drop is a Exiled plugin which emulates a Chopper Dropping supplys for MT
 **Step 4:** PROFIT!
 
 ## Config
-`chopper_drops`
-The 'chopper_drops' config is a **dictionary.**
-Heres the default:
-
-`chopper_drops: GrenadeFrag:4,Flashlight:1,GunMP7:4,GunUSP:2,Painkillers:4`
-
-Lets break it down.
-
-The first value is, **'GrenadeFrag'** then it's value is **4.** It can be broke down into this:
-
-First Value = Item. Second Value = Amount.
-
-So, just put an item in there. And then its amount, then add a ',' and then do the same thing.
-
-**Do not add spaces in this though.**
-
-We also have `chopper_time` which is how long it takes for the chopper to come in, by default it is 600 seconds.
-
-Default:
-
-`chopper_time: 600`
-
-The next one is of course `chopper_enable` if it is set to false, then it doesn't enable the plugin.
+Default Config
+```yml
+chopper_enable: true
+chopper_drops: GrenadeFrag:4,Flashlight:1,GunMP7:4,GunUSP:2,Painkillers:4
+chopper_time: 600
+chopper_dropText: <color=yellow>ALERT: A supply drop helicopter has been called down, all available MTF Units proceeded to the surface for supplys</color>
+```
 
 ## Functionality
 how does this work?
