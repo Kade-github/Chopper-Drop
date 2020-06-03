@@ -1,4 +1,4 @@
-﻿using EXILED;
+using EXILED;
 using MEC;
 using System;
 using System.Collections.Generic;
@@ -35,14 +35,15 @@ namespace ChopperDrop
             ChopperDrops cDrops = new ChopperDrops();
 
             int time = Config.GetInt("chopper_time", 600);
-
+            string dropText = Config.GetString("chopper_dropText",
+                "<color=yellow>ALERT: A supply drop helicopter has been called down, all available MTF Units proceeded to the surface for supplys</color>");
             foreach (string drop in drops)
             {
                 string[] d = drop.Split(':'); // d[0] = item, d[1] = amount
                 cDrops.AddToList(d[0], int.Parse(d[1]));
             }
 
-            EventHandlers = new EventHandlers(this, cDrops, time);
+            EventHandlers = new EventHandlers(this, cDrops, time, dropText);
             Events.RoundStartEvent += EventHandlers.RoundStart;
             Events.WaitingForPlayersEvent += EventHandlers.WaitingForPlayers;
 
