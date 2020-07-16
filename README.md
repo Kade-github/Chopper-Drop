@@ -13,10 +13,15 @@ Chopper Drop is a Exiled plugin which emulates a Chopper Dropping supplys for MT
 ## Config
 Default Config
 ```yml
-chopper_enable: true
-chopper_drops: GrenadeFrag:4,Flashlight:1,GunMP7:4,GunUSP:2,Painkillers:4
-chopper_time: 600
-chopper_dropText: <color=yellow>ALERT: A supply drop helicopter has been called down, all available MTF Units proceeded to the surface for supplys</color>
+CD: !ChopperDrop.Config
+  is_enabled: true
+  chopper_items:
+    GunE11SR: 1 # This works like this:
+    Medkit: 3   # Item Name (Found in #resources): Amount
+    Adrenaline: 2
+    Ammo762: 2
+  chopper_time: 600
+  chopper_text: <color=lime>A supply drop is at the surface!</color>
 ```
 
 ## Functionality
@@ -27,3 +32,6 @@ You might ask, well heres how.
 Every 10 (by default) minutes it calls a chopper, when it lands (it lands where mtf spawn) it will spawn in all the items you configured!
 
 That's how :D
+
+## Item Names
+Found in the exiled discord. https://discord.gg/C4fMYF

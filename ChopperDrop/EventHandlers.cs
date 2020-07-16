@@ -5,23 +5,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using EXILED;
-using EXILED.Extensions;
+using Exiled.API.Features;
+using Respawning;
+using Map = Exiled.API.Features.Map;
+using Object = UnityEngine.Object;
 
 namespace ChopperDrop
 {
     public class EventHandlers
     {
-        public Plugin pl;
-        public ChopperDrops allowedItems;
+        public Plugin<Config> pl;
 
         public int time;
         public string dropText;
         public List<CoroutineHandle> coroutines = new List<CoroutineHandle>();
 
         public bool roundStarted = false;
-
-        public EventHandlers(Plugin plugin, ChopperDrops drops, int tim, string dropTex) 
+        public Dictionary<ItemType, int> allowedItems;
+        public EventHandlers(Plugin<Config> plugin, Dictionary<ItemType,int> drops, int tim, string dropTex) 
         { 
             pl = plugin;
             allowedItems = drops;
@@ -34,7 +35,7 @@ namespace ChopperDrop
             roundStarted = true;
             foreach (CoroutineHandle handle in coroutines)
                 Timing.KillCoroutines(handle);
-            Plugin.Info("Starting the ChopperThread.");
+            Log.Info("Starting Chopper Thread.");
             coroutines.Add(Timing.RunCoroutine(ChopperThread(), "ChopperThread"));
         }
 
@@ -48,33 +49,34 @@ namespace ChopperDrop
         {
             while(roundStarted)
             {
-                // Unity GARBAGE
-                Plugin.Info("Chopper thread waiting 10 minutes.");
                 yield return Timing.WaitForSeconds(time); // Wait seconds (10 minutes by defualt)
-                Plugin.Info("Spawning chopper!");
-                ChopperAutostart ca = UnityEngine.Object.FindObjectOfType<ChopperAutostart>(); // Get the chopper
-                ca.SetState(true); // Call the chopper to come
+                Log.Info("Spawning chopper!");
+                
+                RespawnEffectsController.ExecuteAllEffects(RespawnEffectsController.EffectType.Selection, SpawnableTeamType.NineTailedFox);
 
-                foreach (ReferenceHub h in Player.GetHubs()) // Broadcast to everyone that a supply drop was called down.
-                    h.Broadcast(5, dropText);
+                Map.Broadcast(5,dropText);
 
                 yield return Timing.WaitForSeconds(15); // Wait 15 seconds
 
-                Vector3 spawn = Plugin.GetRandomSpawnPoint(RoleType.NtfCadet); // Get the spawn point of the chopper to you know, spawn em.
+                Vector3 spawn = GetRandomSpawnPoint(RoleType.NtfCadet);
 
-                foreach (KeyValuePair<ItemType, int> drop in allowedItems.drops) // Drop items
+                foreach (KeyValuePair<ItemType, int> drop in allowedItems) // Drop items
                 {
-                    Plugin.Info("Spawning " + drop.Value + " " + drop.Key.ToString() + "'s");
+                    Log.Info("Spawning " + drop.Value + " " + drop.Key.ToString() + "'s");
                     for (int i = 0; i < drop.Value; i++)
-                    {
                         SpawnItem(drop.Key, spawn, spawn);
-                    }
                 }
-                ca.SetState(false); // Call the chopper to leave
                 yield return Timing.WaitForSeconds(15); // Wait 15 seconds to let the chopper leave.
             }
         }
 
+        public static Vector3 GetRandomSpawnPoint(RoleType roleType)
+        {
+            GameObject randomPosition = Object.FindObjectOfType<SpawnpointManager>().GetRandomPosition(roleType);
+
+            return randomPosition == null ? Vector3.zero : randomPosition.transform.position;
+        }
+        
         public int ItemDur(ItemType weapon)
         {
             switch (weapon)
@@ -104,7 +106,7 @@ namespace ChopperDrop
 
         public void SpawnItem(ItemType type, Vector3 pos, Vector3 rot)
         {
-            PlayerManager.localPlayer.GetComponent<Inventory>().SetPickup(type, ItemDur(type), pos, Quaternion.Euler(rot), 0, 0, 0);
+            Exiled.API.Extensions.Item.Spawn(type,ItemDur(type),pos);
         }
     }
 }

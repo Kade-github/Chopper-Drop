@@ -1,56 +1,48 @@
-using EXILED;
+using Handlers = Exiled.Events.Handlers;
 using MEC;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Exiled.API.Features;
+using Exiled.Events;
+using Config = Exiled.Loader.Config;
 
 namespace ChopperDrop
 {
-    public class ChopperDrop : EXILED.Plugin
+    public class ChopperDrop : Plugin<Config>
     {
+        public override string Author { get; } = "KadeDev";
+        public override string Name { get; } = "Chopper Drop";
+        public override string Prefix { get; } = "CD";
+        
         public EventHandlers EventHandlers;
 
-        public override string getName => "ChopperDrop";
-
-        public override void OnDisable()
+        public override void OnDisabled()
         {
             foreach (CoroutineHandle handle in EventHandlers.coroutines)
                 Timing.KillCoroutines(handle);
-
-            Events.RoundStartEvent -= EventHandlers.RoundStart;
-            Events.WaitingForPlayersEvent -= EventHandlers.WaitingForPlayers;
+            
+            Handlers.Server.RoundStarted -= EventHandlers.RoundStart;
+            Handlers.Server.WaitingForPlayers -= EventHandlers.WaitingForPlayers;
 
             EventHandlers = null;
         }
 
-        public override void OnEnable()
+        public override void OnEnabled()
         {
-            if (!Config.GetBool("chopper_enable", true)) // Enable config
+            if (!Config.IsEnabled) // Enable config
                 return;
 
-            // We make our own dictionary stuff because the .GetStringDictionary of 'config' me and joker don't know how it works lol.
-            string[] drops = Config.GetString("chopper_drops", "GrenadeFrag:4,Flashlight:1,GunMP7:4,GunUSP:2,Painkillers:4").Split(',');
-            ChopperDrops cDrops = new ChopperDrops();
+            EventHandlers = new EventHandlers(this, Config.ChopperItems, Config.ChopperTime, Config.ChopperText);
+            Handlers.Server.RoundStarted += EventHandlers.RoundStart;
+            Handlers.Server.WaitingForPlayers += EventHandlers.WaitingForPlayers;
 
-            int time = Config.GetInt("chopper_time", 600);
-            string dropText = Config.GetString("chopper_dropText",
-                "<color=yellow>ALERT: A supply drop helicopter has been called down, all available MTF Units proceeded to the surface for supplys</color>");
-            foreach (string drop in drops)
-            {
-                string[] d = drop.Split(':'); // d[0] = item, d[1] = amount
-                cDrops.AddToList(d[0], int.Parse(d[1]));
-            }
-
-            EventHandlers = new EventHandlers(this, cDrops, time, dropText);
-            Events.RoundStartEvent += EventHandlers.RoundStart;
-            Events.WaitingForPlayersEvent += EventHandlers.WaitingForPlayers;
-
-            Info("Chopper Drop enabled! Enjoy :D");
+            Log.Info("Chopper Drop enabled! Enjoy :D");
         }
 
-        public override void OnReload()
+        public override void OnReloaded()
         {
             // empty
         }
