@@ -1,3 +1,4 @@
+[![forthebadge](https://forthebadge.com/images/badges/gluten-free.svg)](https://forthebadge.com)[![forthebadge](https://forthebadge.com/images/badges/ages-12.svg)](https://forthebadge.com)[![forthebadge](https://forthebadge.com/images/badges/built-by-codebabes.svg)](https://forthebadge.com)
 # Chopper-Drop
 Chopper Drop is a Exiled plugin which emulates a Chopper Dropping supplys for MTF (or really anyone who is up there). This could be really useful for RP Sites/Gameplay sites. Really anything.
 
