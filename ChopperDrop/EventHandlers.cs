@@ -64,7 +64,7 @@ namespace ChopperDrop
                 {
                     Log.Info("Spawning " + drop.Value + " " + drop.Key.ToString() + "'s");
                     for (int i = 0; i < drop.Value; i++)
-                        SpawnItem(drop.Key, spawn, spawn);
+                        SpawnItem(drop.Key, spawn);
                 }
                 yield return Timing.WaitForSeconds(15); // Wait 15 seconds to let the chopper leave.
             }
@@ -104,7 +104,7 @@ namespace ChopperDrop
             }
         }
 
-        public void SpawnItem(ItemType type, Vector3 pos, Vector3 rot)
+        public void SpawnItem(ItemType type, Vector3 pos)
         {
             Exiled.API.Extensions.Item.Spawn(type,ItemDur(type),pos);
         }
