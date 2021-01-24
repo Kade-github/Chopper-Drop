@@ -35,7 +35,7 @@ namespace ChopperDrop
             if (!Config.IsEnabled) // Enable config
                 return;
 
-            EventHandlers = new EventHandlers(this, Config.ChopperItems, Config.ChopperTime, Config.ChopperText);
+            EventHandlers = new EventHandlers(this, Config.ChopperItems, Config.ChopperTime, Config.ChopperText, Config.MinPlayers);
             Handlers.Server.RoundStarted += EventHandlers.RoundStart;
             Handlers.Server.WaitingForPlayers += EventHandlers.WaitingForPlayers;
 
