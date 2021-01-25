@@ -22,12 +22,13 @@ namespace ChopperDrop
 
         public bool roundStarted = false;
         public Dictionary<ItemType, int> allowedItems;
-        public EventHandlers(Plugin<Config> plugin, Dictionary<ItemType,int> drops, int tim, string dropTex) 
+        public EventHandlers(Plugin<Config> plugin, Dictionary<ItemType,int> drops, int tim, string dropTex, int minPly) 
         { 
             pl = plugin;
             allowedItems = drops;
             time = tim;
             dropText = dropTex;
+            minPlayers = minPly;
         }
 
         internal void RoundStart()
@@ -47,26 +48,31 @@ namespace ChopperDrop
 
         public IEnumerator<float> ChopperThread()
         {
-            while(roundStarted)
+            while (roundStarted)
             {
-                yield return Timing.WaitForSeconds(time); // Wait seconds (10 minutes by defualt)
-                Log.Info("Spawning chopper!");
-                
-                RespawnEffectsController.ExecuteAllEffects(RespawnEffectsController.EffectType.Selection, SpawnableTeamType.NineTailedFox);
+                var playerCount = PlayerManager.players.Count;
 
-                Map.Broadcast(5,dropText);
-
-                yield return Timing.WaitForSeconds(15); // Wait 15 seconds
-
-                Vector3 spawn = GetRandomSpawnPoint(RoleType.NtfCadet);
-
-                foreach (KeyValuePair<ItemType, int> drop in allowedItems) // Drop items
+                if (playerCount >= minPlayers)
                 {
-                    Log.Info("Spawning " + drop.Value + " " + drop.Key.ToString() + "'s");
-                    for (int i = 0; i < drop.Value; i++)
-                        SpawnItem(drop.Key, spawn);
+                    yield return Timing.WaitForSeconds(time); // Wait seconds (10 minutes by defualt)
+                    Log.Info("Spawning chopper!");
+
+                    RespawnEffectsController.ExecuteAllEffects(RespawnEffectsController.EffectType.Selection, SpawnableTeamType.NineTailedFox);
+
+                    Map.Broadcast(5, dropText);
+
+                    yield return Timing.WaitForSeconds(15); // Wait 15 seconds
+
+                    Vector3 spawn = GetRandomSpawnPoint(RoleType.NtfCadet);
+
+                    foreach (KeyValuePair<ItemType, int> drop in allowedItems) // Drop items
+                    {
+                        Log.Info("Spawning " + drop.Value + " " + drop.Key.ToString() + "'s");
+                        for (int i = 0; i < drop.Value; i++)
+                            SpawnItem(drop.Key, spawn);
+                    }
+                    yield return Timing.WaitForSeconds(15); // Wait 15 seconds to let the chopper leave.
                 }
-                yield return Timing.WaitForSeconds(15); // Wait 15 seconds to let the chopper leave.
             }
         }
 
