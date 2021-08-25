@@ -9,7 +9,6 @@ using Exiled.API.Features;
 using Respawning;
 using Map = Exiled.API.Features.Map;
 using Object = UnityEngine.Object;
-using Exiled.API.Features.Items;
 
 namespace ChopperDrop
 {
@@ -18,7 +17,6 @@ namespace ChopperDrop
         public Plugin<Config> pl;
 
         public int time;
-        public int minPlayers;
         public string dropText;
         public List<CoroutineHandle> coroutines = new List<CoroutineHandle>();
 
@@ -50,7 +48,7 @@ namespace ChopperDrop
 
         public IEnumerator<float> ChopperThread()
         {
-            while(roundStarted)
+            while (roundStarted)
             {
                 var playerCount = PlayerManager.players.Count;
 
@@ -65,13 +63,13 @@ namespace ChopperDrop
 
                     yield return Timing.WaitForSeconds(15); // Wait 15 seconds
 
-                    Vector3 spawn = GetRandomSpawnPoint(RoleType.NtfPrivate);
+                    Vector3 spawn = GetRandomSpawnPoint(RoleType.NtfCadet);
 
                     foreach (KeyValuePair<ItemType, int> drop in allowedItems) // Drop items
                     {
                         Log.Info("Spawning " + drop.Value + " " + drop.Key.ToString() + "'s");
                         for (int i = 0; i < drop.Value; i++)
-                            SpawnItem(drop.Key, spawn, spawn);
+                            SpawnItem(drop.Key, spawn);
                     }
                     yield return Timing.WaitForSeconds(15); // Wait 15 seconds to let the chopper leave.
                 }
@@ -90,42 +88,31 @@ namespace ChopperDrop
             switch (weapon)
             {
                 case ItemType.GunCOM15:
-                    return 30;
+                    return 12;
                 case ItemType.GunE11SR:
-                    return 65;
-                case ItemType.GunCrossvec:
-                    return 80;
-                case ItemType.GunFSP9:
-                    return 60;
+                    return 18;
+                case ItemType.GunProject90:
+                    return 50;
+                case ItemType.GunMP7:
+                    return 35;
                 case ItemType.GunLogicer:
                     return 100;
-                case ItemType.GunCOM18:
-                    return 30;
-                case ItemType.GunRevolver:
-                    return 12;
-                case ItemType.GunShotgun:
-                    return 28;
-                case ItemType.GunAK:
-                    return 60;
-                case ItemType.Ammo12gauge:
-                    return 28;
-                case ItemType.Ammo556x45:
-                    return 40;
-                case ItemType.Ammo44cal:
+                case ItemType.GunUSP:
                     return 18;
-                case ItemType.Ammo762x39:
-                    return 30;
-                case ItemType.Ammo9x19:
-                    return 30;
+                case ItemType.Ammo762:
+                    return 25;
+                case ItemType.Ammo9mm:
+                    return 25;
+                case ItemType.Ammo556:
+                    return 25;
                 default:
                     return 50;
             }
         }
 
-        public static void SpawnItem(ItemType type, Vector3 pos, Vector3 rot)
+        public void SpawnItem(ItemType type, Vector3 pos)
         {
-            Item item = new Item(type);
-            item.Spawn(pos, default);
+            Exiled.API.Extensions.Item.Spawn(type,ItemDur(type),pos);
         }
     }
 }
