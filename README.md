@@ -26,7 +26,8 @@ CD:
     Adrenaline: 1
     Coin: 1
   chopper_time: 600
-  chopper_text: <color=lime>A supply drop is at the surface!</color>
+  chopper_broadcast: <size=45><i><color=yellow>A supply drop has arrived!</color></i></size>
+  chopper_broadcast_time: 10
   # Minimum players on the server to spawn the chopper
   min_players: 2
 ```
