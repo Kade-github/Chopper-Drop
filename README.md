@@ -28,7 +28,7 @@ CD:
   chopper_time: 600
   chopper_text: <color=lime>A supply drop is at the surface!</color>
   # Minimum players on the server to spawn the chopper
-  public int MinPlayers { get; set; } = 2;
+  min_players: 2
 ```
 
 ## Functionality
