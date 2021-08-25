@@ -19,19 +19,21 @@ namespace ChopperDrop
 
         public int time;
         public int minPlayers;
+        public ushort bcTime;
         public string dropText;
         public List<CoroutineHandle> coroutines = new List<CoroutineHandle>();
 
         public bool roundStarted = false;
         public Dictionary<ItemType, int> allowedItems;
-        public EventHandlers(Plugin<Config> plugin, Dictionary<ItemType, int> drops, int tim, string dropTex, int minPly)
+        public EventHandlers(Plugin<Config> plugin, Dictionary<ItemType, int> drops, int tim, string dropTex, int minPly, ushort bcTimee)
         {
             pl = plugin;
             allowedItems = drops;
             time = tim;
             dropText = dropTex;
             minPlayers = minPly;
-        }
+            bcTime = bcTimee;
+    }
 
         internal void RoundStart()
         {
@@ -61,7 +63,7 @@ namespace ChopperDrop
 
                     RespawnEffectsController.ExecuteAllEffects(RespawnEffectsController.EffectType.Selection, SpawnableTeamType.NineTailedFox);
 
-                    Map.Broadcast(5, dropText);
+                    Map.Broadcast(bcTime, dropText);
 
                     yield return Timing.WaitForSeconds(15); // Wait 15 seconds
 
@@ -71,7 +73,7 @@ namespace ChopperDrop
                     {
                         Log.Info("Spawning " + drop.Value + " " + drop.Key.ToString() + "'s");
                         for (int i = 0; i < drop.Value; i++)
-                            SpawnItem(drop.Key, spawn, spawn);
+                            SpawnItem(drop.Key, spawn);
                     }
                     yield return Timing.WaitForSeconds(15); // Wait 15 seconds to let the chopper leave.
                 }
@@ -85,44 +87,7 @@ namespace ChopperDrop
             return randomPosition == null ? Vector3.zero : randomPosition.transform.position;
         }
 
-        public int ItemDur(ItemType weapon)
-        {
-            switch (weapon)
-            {
-                case ItemType.GunCOM15:
-                    return 30;
-                case ItemType.GunE11SR:
-                    return 65;
-                case ItemType.GunCrossvec:
-                    return 80;
-                case ItemType.GunFSP9:
-                    return 60;
-                case ItemType.GunLogicer:
-                    return 100;
-                case ItemType.GunCOM18:
-                    return 30;
-                case ItemType.GunRevolver:
-                    return 12;
-                case ItemType.GunShotgun:
-                    return 28;
-                case ItemType.GunAK:
-                    return 60;
-                case ItemType.Ammo12gauge:
-                    return 28;
-                case ItemType.Ammo556x45:
-                    return 40;
-                case ItemType.Ammo44cal:
-                    return 18;
-                case ItemType.Ammo762x39:
-                    return 30;
-                case ItemType.Ammo9x19:
-                    return 30;
-                default:
-                    return 50;
-            }
-        }
-
-        public static void SpawnItem(ItemType type, Vector3 pos, Vector3 rot)
+        public static void SpawnItem(ItemType type, Vector3 pos)
         {
             Item item = new Item(type);
             item.Spawn(pos, default);
