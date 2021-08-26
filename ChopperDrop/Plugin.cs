@@ -17,7 +17,7 @@ namespace ChopperDrop
         public override string Name { get; } = "Chopper Drop";
         public override string Prefix { get; } = "CD";
         public override Version Version { get; } = new Version(2, 7, 0);
-        public override Version RequiredExiledVersion { get; } = new Version(2, 1, 30);
+        public override Version RequiredExiledVersion { get; } = new Version(3, 0, 0);
 
         internal static ChopperDrop Singleton;
 
