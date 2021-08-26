@@ -21,11 +21,15 @@ namespace ChopperDrop
         public int minPlayers;
         public ushort bcTime;
         public string dropText;
+        private bool manual_cords;
+        private float posX;
+        private float posY;
+        private float posZ;
         public List<CoroutineHandle> coroutines = new List<CoroutineHandle>();
 
         public bool roundStarted = false;
         public Dictionary<ItemType, int> allowedItems;
-        public EventHandlers(Plugin<Config> plugin, Dictionary<ItemType, int> drops, int tim, string dropTex, int minPly, ushort bcTimee)
+        public EventHandlers(Plugin<Config> plugin, Dictionary<ItemType, int> drops, int tim, string dropTex, int minPly, ushort bcTimee, bool cords_enabled, float pos_x, float pos_y, float pos_z)
         {
             pl = plugin;
             allowedItems = drops;
@@ -33,7 +37,11 @@ namespace ChopperDrop
             dropText = dropTex;
             minPlayers = minPly;
             bcTime = bcTimee;
-    }
+            manual_cords = cords_enabled;
+            posX = pos_x;
+            posY = pos_y;
+            posZ = pos_z;
+        }
 
         internal void RoundStart()
         {
@@ -68,6 +76,10 @@ namespace ChopperDrop
                     yield return Timing.WaitForSeconds(15); // Wait 15 seconds
 
                     Vector3 spawn = GetRandomSpawnPoint(RoleType.NtfPrivate);
+                    
+                    if (manual_cords) {
+                        spawn = new Vector3(posX, posY, posZ);
+                    }
 
                     foreach (KeyValuePair<ItemType, int> drop in allowedItems) // Drop items
                     {

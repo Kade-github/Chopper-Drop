@@ -30,6 +30,12 @@ CD:
   chopper_broadcast_time: 10
   # Minimum players on the server to spawn the chopper
   min_players: 2
+  # Should the plugin use coordinates set below to spawn the items?
+  manual_coordinates: true
+  # Coordinates used for the items spawn
+  pos_x: 173
+  pos_y: 993
+  pos_z: -59
 ```
 
 ## Functionality

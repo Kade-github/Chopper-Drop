@@ -13,5 +13,12 @@ namespace ChopperDrop
         public ushort ChopperBroadcastTime { get; set; } = 10;
         [Description("Minimum players on the server to spawn the chopper")]
         public int MinPlayers { get; set; } = 2;
+
+        [Description("Should the plugin use coordinates set below to spawn the items?")]
+        public bool ManualCoordinates { get; set; } = true;
+        [Description("Coordinates used for the items spawn")]
+        public float Pos_x { get; set; } = 173;
+        public float Pos_y { get; set; } = 993;
+        public float Pos_z { get; set; } = -59;
     }
 }
