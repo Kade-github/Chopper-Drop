@@ -28,6 +28,8 @@ CD:
   chopper_time: 600
   chopper_broadcast: <size=45><i><color=yellow>A supply drop has arrived!</color></i></size>
   chopper_broadcast_time: 10
+  # How many drops can the helicopter do per round? Set to -1 to disable limit.
+  drops_limit: 2
   # Minimum players on the server to spawn the chopper
   min_players: 2
   # Should the plugin use coordinates set below to spawn the items?
@@ -36,6 +38,8 @@ CD:
   pos_x: 173
   pos_y: 993
   pos_z: -59
+  # Don't use it unless you have issues with the plugin. When sending a log enable this please.
+  debug: false
 ```
 
 ## Functionality
