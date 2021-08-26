@@ -42,6 +42,11 @@ CD:
 **How does this work? You might ask, well heres how.**
 <br>Every 10 minutes (by default) it calls a chopper, when it lands (where MTF spawns) it will spawn in all the items you configured!
 
+### To-Do list
+- CI Drops
+- Cassie announcements
+- Some code improvements
+
 ## Item Names
 
 <details>
