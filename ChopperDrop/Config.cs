@@ -1,13 +1,49 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using Exiled.API.Interfaces;
+using ChopperDrop.Structs;
+using Exiled.API.Extensions;
 
 namespace ChopperDrop
 {
     public class Config : IConfig
     {
         public bool IsEnabled { get; set; } = true;
-        public Dictionary<ItemType, int> ChopperItems { get; set; } = new Dictionary<ItemType, int> { { ItemType.GunCOM18, 1 }, { ItemType.GunE11SR, 1 }, { ItemType.Ammo762x39, 1 }, { ItemType.Ammo9x19, 1 }, { ItemType.Medkit, 2 }, { ItemType.Adrenaline, 1 }, { ItemType.Coin, 1 } };
+        [Description("List of items ")]
+        public Dictionary<Exiled.API.Enums.Side, List<DropItem>> ChopperItems { get; set; } = new Dictionary<Exiled.API.Enums.Side, List<DropItem>>
+        {
+            {
+                Exiled.API.Enums.Side.Mtf, new List<DropItem>
+                {
+                    {
+                        new DropItem
+                        {
+                            Item = ItemType.Coin,
+                            Quantity = 5,
+                            Chance = 50,
+                        }
+                    }
+                }
+            },
+        };
+        //public Dictionary<ItemType, int> ChopperItems { get; set; } = new Dictionary<ItemType, int> 
+        //{ 
+        //    { 
+        //        ItemType.GunCOM18, 1 
+        //    }, { 
+        //        ItemType.GunE11SR, 1 
+        //    }, { 
+        //        ItemType.Ammo762x39, 1 
+        //    }, { 
+        //        ItemType.Ammo9x19, 1 
+        //    }, { 
+        //        ItemType.Medkit, 2 
+        //    }, { 
+        //        ItemType.Adrenaline, 1 
+        //    }, { 
+        //        ItemType.Coin, 1 
+        //    } 
+        //};
         public int ChopperTime { get; set; } = 600;
         public string ChopperBroadcast { get; set; } = "<size=45><i><color=yellow>A supply drop has arrived!</color></i></size>";
         public ushort ChopperBroadcastTime { get; set; } = 10;

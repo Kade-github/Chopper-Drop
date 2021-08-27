@@ -63,10 +63,11 @@
     <Compile Include="Plugin.cs" />
     <Compile Include="EventHandlers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Structs\DropItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="EXILED">
-      <Version>3.0.0-alpha.61</Version>
+      <Version>3.0.0-alpha.70</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

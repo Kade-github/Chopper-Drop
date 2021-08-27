@@ -10,6 +10,7 @@ using Respawning;
 using Map = Exiled.API.Features.Map;
 using Object = UnityEngine.Object;
 using Exiled.API.Features.Items;
+using ChopperDrop.Structs;
 
 namespace ChopperDrop
 {
@@ -22,7 +23,7 @@ namespace ChopperDrop
         public ushort bcTime;
         public string dropText;
         private int dropLimit;
-        private int drops = 0;
+        private int dropsNumber = 0;
         private bool manual_cords;
         private float posX;
         private float posY;
@@ -30,11 +31,12 @@ namespace ChopperDrop
         public List<CoroutineHandle> coroutines = new List<CoroutineHandle>();
 
         public bool roundStarted = false;
-        public Dictionary<ItemType, int> allowedItems;
+        //public Dictionary<ItemType, int> allowedItems;
+        public Dictionary<Exiled.API.Enums.Side, List<DropItem>> allowedItems;
 
-        
+        public List<DropItem> DropItems { get; set; } = new List<DropItem>();
 
-        public EventHandlers(Plugin<Config> plugin, Dictionary<ItemType, int> drops, int tim, string dropTex, int minPly, ushort bcTimee, int dropslimit, bool cords_enabled, float pos_x, float pos_y, float pos_z)
+        public EventHandlers(Plugin<Config> plugin, Dictionary<Exiled.API.Enums.Side, List<DropItem>> drops, int tim, string dropTex, int minPly, ushort bcTimee, int dropslimit, bool cords_enabled, float pos_x, float pos_y, float pos_z)
         {
             pl = plugin;
             allowedItems = drops;
@@ -71,7 +73,7 @@ namespace ChopperDrop
                 //var playerCount = PlayerManager.players.Count;
                 int playerCount = Player.List.Count(player => player.IsConnected);
 
-                if ((playerCount >= minPlayers) && ((dropLimit == -1) || (dropLimit > drops)))
+                if ((playerCount >= minPlayers) && ((dropLimit == -1) || (dropLimit > dropsNumber)))
                 {
                     yield return Timing.WaitForSeconds(time); // Wait seconds (10 minutes by default)
                     Log.Info("Spawning chopper!");
@@ -88,18 +90,26 @@ namespace ChopperDrop
                         spawn = new Vector3(posX, posY, posZ);
                     }
 
-                    foreach (KeyValuePair<ItemType, int> drop in allowedItems) // Drop items
+                    foreach ((ItemType name, int quant, int number) in ChopperDrop.Singleton.Config.ChopperItems[Exiled.API.Enums.Side.Mtf])
                     {
-                        Log.Debug("Spawning " + drop.Value + " " + drop.Key.ToString() + "'s", ChopperDrop.Singleton?.Config?.Debug ?? false);
-                        for (int i = 0; i < drop.Value; i++)
-                            SpawnItem(drop.Key, spawn);
+
+                        System.Random random = new System.Random();
+                        int r = random.Next(100);
+                        //int r = ChopperDrop.Rng.Next(100);
+                        Log.Debug($"Preparing to spawn {quant} {name}(s) with a {number} chance for each one.", ChopperDrop.Singleton?.Config?.Debug ?? false);
+                        for (int i = 0; i < quant; i++)
+                            if (r <= number) {
+                                SpawnItem(name, spawn);
+                                Log.Debug($"Spawning {name}", ChopperDrop.Singleton?.Config?.Debug ?? false);
+                            }
                     }
-                    drops++;
-                    Log.Debug($"Drops - {drops}/{dropLimit}", ChopperDrop.Singleton?.Config?.Debug ?? false);
+
+                    dropsNumber++;
+                    Log.Debug($"Drops used - {dropsNumber}/{dropLimit}", ChopperDrop.Singleton?.Config?.Debug ?? false);
                     yield return Timing.WaitForSeconds(15); // Wait 15 seconds to let the chopper leave.
                 }
                 else {
-                    if (drops == dropLimit) Log.Debug("Drops limit has been reached.", ChopperDrop.Singleton?.Config?.Debug ?? false);
+                    if (dropsNumber == dropLimit) Log.Debug("Drops limit has been reached.", ChopperDrop.Singleton?.Config?.Debug ?? false);
                     yield return Timing.WaitForSeconds(60); // Wait 60 seconds for more players.
                 }
             }
