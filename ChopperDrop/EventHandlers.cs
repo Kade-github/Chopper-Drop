@@ -90,19 +90,57 @@ namespace ChopperDrop
                         spawn = new Vector3(posX, posY, posZ);
                     }
 
+                    //Log.Debug("before try");
+                    //try
+                    //{
+                    //    Log.Debug("inside try start");
+                    //    System.Random random = new System.Random();
+                    //    int r = random.Next(100);
+                    //    int quant = 5;
+                    //    int number = 90;
+                    //    //int r = ChopperDrop.Rng.Next(100);
+                    //    Log.Debug($"Preparing to spawn {quant} {ItemType.Medkit}(s) with a {number} chance for each one.", ChopperDrop.Singleton?.Config?.Debug ?? false);
+                    //    for (int i = 0; i < quant; i++)
+                    //        if (r <= number)
+                    //        {
+                    //            SpawnItem(ItemType.Medkit, spawn);
+                    //            Log.Debug($"Spawning {ItemType.Medkit}", ChopperDrop.Singleton?.Config?.Debug ?? false);
+                    //        }
+                    //    Log.Debug("inside try end");
+                    //}
+                    //catch
+                    //{
+                    //    Log.Debug("inside catch");
+                    //}
+                    //Log.Debug("after catch");
+
+                    Log.Debug("Before foreach");
+
                     foreach ((ItemType name, int quant, int number) in ChopperDrop.Singleton.Config.ChopperItems[Exiled.API.Enums.Side.Mtf])
                     {
-
-                        System.Random random = new System.Random();
-                        int r = random.Next(100);
-                        //int r = ChopperDrop.Rng.Next(100);
-                        Log.Debug($"Preparing to spawn {quant} {name}(s) with a {number} chance for each one.", ChopperDrop.Singleton?.Config?.Debug ?? false);
-                        for (int i = 0; i < quant; i++)
-                            if (r <= number) {
-                                SpawnItem(name, spawn);
-                                Log.Debug($"Spawning {name}", ChopperDrop.Singleton?.Config?.Debug ?? false);
-                            }
+                        Log.Debug("Foreach -> before try");
+                        try
+                        {
+                            Log.Debug("Foreach -> inside try start");
+                            System.Random random = new System.Random();
+                            int r = random.Next(100);
+                            //int r = ChopperDrop.Rng.Next(100);
+                            Log.Debug($"Preparing to spawn {quant} {name}(s) with a {number} chance for each one.", ChopperDrop.Singleton?.Config?.Debug ?? false);
+                            for (int i = 0; i < quant; i++)
+                                if (r <= number)
+                                {
+                                    SpawnItem(name, spawn);
+                                    Log.Debug($"Spawning {name}", ChopperDrop.Singleton?.Config?.Debug ?? false);
+                                }
+                            Log.Debug("Foreach -> inside try end");
+                        }
+                        catch
+                        {
+                            Log.Debug("Foreach -> inside catch");
+                        }
+                        Log.Debug("Foreach -> after catch");
                     }
+                    Log.Debug("After foreach");
 
                     dropsNumber++;
                     Log.Debug($"Drops used - {dropsNumber}/{dropLimit}", ChopperDrop.Singleton?.Config?.Debug ?? false);

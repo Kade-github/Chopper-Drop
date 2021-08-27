@@ -18,7 +18,7 @@ namespace ChopperDrop
                     {
                         new DropItem
                         {
-                            Item = ItemType.Coin,
+                            Item = ItemType.Medkit,
                             Quantity = 5,
                             Chance = 50,
                         }
@@ -26,24 +26,6 @@ namespace ChopperDrop
                 }
             },
         };
-        //public Dictionary<ItemType, int> ChopperItems { get; set; } = new Dictionary<ItemType, int> 
-        //{ 
-        //    { 
-        //        ItemType.GunCOM18, 1 
-        //    }, { 
-        //        ItemType.GunE11SR, 1 
-        //    }, { 
-        //        ItemType.Ammo762x39, 1 
-        //    }, { 
-        //        ItemType.Ammo9x19, 1 
-        //    }, { 
-        //        ItemType.Medkit, 2 
-        //    }, { 
-        //        ItemType.Adrenaline, 1 
-        //    }, { 
-        //        ItemType.Coin, 1 
-        //    } 
-        //};
         public int ChopperTime { get; set; } = 600;
         public string ChopperBroadcast { get; set; } = "<size=45><i><color=yellow>A supply drop has arrived!</color></i></size>";
         public ushort ChopperBroadcastTime { get; set; } = 10;
