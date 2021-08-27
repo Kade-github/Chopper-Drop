@@ -16,7 +16,7 @@ namespace ChopperDrop
         public override string Author { get; } = "KadeDev";
         public override string Name { get; } = "Chopper Drop";
         public override string Prefix { get; } = "CD";
-        public override Version Version { get; } = new Version(2, 7, 0);
+        public override Version Version { get; } = new Version(3, 0, 0);
         public override Version RequiredExiledVersion { get; } = new Version(3, 0, 0);
 
         internal static ChopperDrop Singleton;
@@ -25,10 +25,12 @@ namespace ChopperDrop
 
         public override void OnEnabled()
         {
+            Singleton = this;
+
             if (!Config.IsEnabled) // Enable config
                 return;
 
-            EventHandlers = new EventHandlers(this, Config.ChopperItems, Config.ChopperTime, Config.ChopperBroadcast, Config.MinPlayers, Config.ChopperBroadcastTime, Config.DropsLimit, Config.ManualCoordinates, Config.Pos_x, Config.Pos_y, Config.Pos_z);
+            EventHandlers = new EventHandlers(this, Config.MtfItems, Config.ChopperTime, Config.ChopperBroadcast, Config.MinPlayers, Config.ChopperBroadcastTime, Config.DropsLimit, Config.ManualCoordinates, Config.Pos_x, Config.Pos_y, Config.Pos_z);
             Handlers.Server.RoundStarted += EventHandlers.RoundStart;
             Handlers.Server.WaitingForPlayers += EventHandlers.WaitingForPlayers;
 
