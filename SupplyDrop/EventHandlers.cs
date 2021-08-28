@@ -194,7 +194,7 @@ namespace SupplyDrop
 
                         //Thanks to JesusQC for his help with making the entire plugin work. Love you
                         //Honorable mention - sanyae2439 for "hell code".
-                        foreach (var dropItems in SupplyDrop.Singleton.Config.MtfItems)
+                        foreach (var dropItems in SupplyDrop.Singleton.Config.ChaosItems)
                         {
                             int spawned = 0;
                             System.Random random = new System.Random();
