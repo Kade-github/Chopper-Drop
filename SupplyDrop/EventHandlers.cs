@@ -1,15 +1,16 @@
 using System;
-using MEC;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UnityEngine;
 using Exiled.API.Features;
+using Exiled.API.Features.Items;
+using MEC;
 using Respawning;
+using UnityEngine;
 using Map = Exiled.API.Features.Map;
 using Object = UnityEngine.Object;
-using Exiled.API.Features.Items;
+using ItemExtensions = Exiled.API.Extensions.ItemExtensions;
 using SupplyDrop.Structs;
 
 namespace SupplyDrop
@@ -26,9 +27,10 @@ namespace SupplyDrop
         private int chopper_dropLimit;
         private int chopper_dropsNumber = 0;
         private bool chopper_manual_cords;
-        private float chopper_posX;
-        private float chopper_posY;
-        private float chopper_posZ;
+        private Vector3 chopper_pos_ammo;
+        private Vector3 chopper_pos_armors;
+        private Vector3 chopper_pos_items;
+        private Vector3 chopper_pos_weapons;
 
         public int car_time;
         public int car_time_difference;
@@ -37,9 +39,10 @@ namespace SupplyDrop
         private int car_dropLimit;
         private int car_dropsNumber = 0;
         private bool car_manual_cords;
-        private float car_posX;
-        private float car_posY;
-        private float car_posZ;
+        private Vector3 car_pos_ammo;
+        private Vector3 car_pos_armors;
+        private Vector3 car_pos_items;
+        private Vector3 car_pos_weapons;
 
         public List<CoroutineHandle> coroutines = new List<CoroutineHandle>();
 
@@ -47,7 +50,7 @@ namespace SupplyDrop
 
         //public List<DropItems> DropItems { get; set; } = new List<DropItems>();
 
-        public EventHandlers(Plugin<Config> plugin, int minPly, int chopper_tim, string chopper_dropTex, ushort chopper_bcTimee, int chopper_dropslimit, bool chopper_cords_enabled, float chopper_pos_x, float chopper_pos_y, float chopper_pos_z, int car_tim, int car_tim_difference, string car_dropTex, ushort car_bcTimee, int car_dropslimit, bool car_cords_enabled, float car_pos_x, float car_pos_y, float car_pos_z)
+        public EventHandlers(Plugin<Config> plugin, int minPly, int chopper_tim, string chopper_dropTex, ushort chopper_bcTimee, int chopper_dropslimit, bool chopper_cords_enabled, Vector3 chopperPos_ammo, Vector3 chopperPos_armors, Vector3 chopperPos_items, Vector3 chopperPos_weapons, int car_tim, int car_tim_difference, string car_dropTex, ushort car_bcTimee, int car_dropslimit, bool car_cords_enabled, Vector3 carPos_ammo, Vector3 carPos_armors, Vector3 carPos_items, Vector3 carPos_weapons)
         {
             pl = plugin;
             minPlayers = minPly;
@@ -57,9 +60,10 @@ namespace SupplyDrop
             chopper_bcTime = chopper_bcTimee;
             chopper_dropLimit = chopper_dropslimit;
             chopper_manual_cords = chopper_cords_enabled;
-            chopper_posX = chopper_pos_x;
-            chopper_posY = chopper_pos_y;
-            chopper_posZ = chopper_pos_z;
+            chopper_pos_ammo = chopperPos_ammo;
+            chopper_pos_armors = chopperPos_armors;
+            chopper_pos_items = chopperPos_items;
+            chopper_pos_weapons = chopperPos_weapons;
 
             car_time = car_tim;
             car_time_difference = car_tim_difference;
@@ -67,9 +71,10 @@ namespace SupplyDrop
             car_bcTime = car_bcTimee;
             car_dropLimit = car_dropslimit;
             car_manual_cords = car_cords_enabled;
-            car_posX = car_pos_x;
-            car_posY = car_pos_y;
-            car_posZ = car_pos_z;
+            car_pos_ammo = carPos_ammo;
+            car_pos_armors = carPos_armors;
+            car_pos_items = carPos_items;
+            car_pos_weapons = carPos_weapons;
         }
 
         internal void RoundStart()
@@ -108,10 +113,6 @@ namespace SupplyDrop
 
                     Vector3 spawn = GetRandomSpawnPoint(RoleType.NtfPrivate);
 
-                    if (chopper_manual_cords) {
-                        spawn = new Vector3(chopper_posX, chopper_posY, chopper_posZ);
-                    }
-
                     try
                     {
                         if (SupplyDrop.Singleton.Config.MtfItems == null)
@@ -124,6 +125,15 @@ namespace SupplyDrop
                         //Honorable mention - sanyae2439 for "hell code".
                         foreach (var dropItems in SupplyDrop.Singleton.Config.MtfItems) {
                             int spawned = 0;
+                            Item item = new Item(dropItems.Item);
+                            if (car_manual_cords)
+                            {
+                                if (ItemExtensions.IsAmmo(item.Type)) spawn = chopper_pos_ammo;
+                                if (ItemExtensions.IsArmor(item.Type)) spawn = chopper_pos_armors;
+                                if (ItemExtensions.IsKeycard(item.Type) || ItemExtensions.IsMedical(item.Type) || ItemExtensions.IsUtility(item.Type) || ItemExtensions.IsScp(item.Type)) spawn = chopper_pos_items;
+                                if (ItemExtensions.IsWeapon(item.Type, true) || ItemExtensions.IsThrowable(item.Type)) spawn = chopper_pos_weapons;
+                                Log.Debug($"Coordinates choosed for {dropItems.Item} - {spawn}", SupplyDrop.Singleton?.Config?.Debug ?? false);
+                            }
                             System.Random random = new System.Random();
                             //Has to be declared twice, why? I don't know
                             int r = random.Next(100);
@@ -133,7 +143,7 @@ namespace SupplyDrop
                                 r = random.Next(100);
                                 if (r <= dropItems.Chance)
                                 {
-                                    SpawnItem(dropItems.Item, spawn);
+                                    item.Spawn(spawn, default);
                                     spawned++;
                                     Log.Debug($"Spawning {dropItems.Item}. Luck - {r}/{dropItems.Chance}", SupplyDrop.Singleton?.Config?.Debug ?? false);
                                 }
@@ -179,11 +189,6 @@ namespace SupplyDrop
 
                     Vector3 spawn = GetRandomSpawnPoint(RoleType.ChaosRifleman);
 
-                    if (car_manual_cords)
-                    {
-                        spawn = new Vector3(car_posX, car_posY, car_posZ);
-                    }
-
                     try
                     {
                         if (SupplyDrop.Singleton.Config.MtfItems == null)
@@ -197,6 +202,15 @@ namespace SupplyDrop
                         foreach (var dropItems in SupplyDrop.Singleton.Config.ChaosItems)
                         {
                             int spawned = 0;
+                            Item item = new Item(dropItems.Item);
+                            if (car_manual_cords)
+                            {
+                                if (ItemExtensions.IsAmmo(item.Type)) spawn = car_pos_ammo;
+                                if (ItemExtensions.IsArmor(item.Type)) spawn = car_pos_armors;
+                                if (ItemExtensions.IsKeycard(item.Type) || ItemExtensions.IsMedical(item.Type) || ItemExtensions.IsUtility(item.Type) || ItemExtensions.IsScp(item.Type)) spawn = car_pos_items;
+                                if (ItemExtensions.IsWeapon(item.Type, true) || ItemExtensions.IsThrowable(item.Type)) spawn = car_pos_weapons;
+                                Log.Debug($"Coordinates choosed for {dropItems.Item} - {spawn}", SupplyDrop.Singleton?.Config?.Debug ?? false);
+                            }
                             System.Random random = new System.Random();
                             //Has to be declared twice, why? I don't know
                             int r = random.Next(100);
@@ -206,7 +220,7 @@ namespace SupplyDrop
                                 r = random.Next(100);
                                 if (r <= dropItems.Chance)
                                 {
-                                    SpawnItem(dropItems.Item, spawn);
+                                    item.Spawn(spawn, default);
                                     spawned++;
                                     Log.Debug($"Spawning {dropItems.Item}. Luck - {r}/{dropItems.Chance}", SupplyDrop.Singleton?.Config?.Debug ?? false);
                                 }

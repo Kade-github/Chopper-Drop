@@ -19,7 +19,7 @@ Supply Drop is an Exiled plugin that makes the chopper and car drop supplies at 
 
 ```yml
 SD:
-# Please take time to read the Github Readme.
+  # Please take time to read the Github Readme.
   is_enabled: true
   # Minimum players on the server to spawn the chopper
   min_players: 2
@@ -78,9 +78,22 @@ SD:
   # Should the plugin use coordinates set below to spawn the items? If not it will use random MTF spawn point
   chopper_manual_coordinates: true
   # Coordinates used for the items spawn
-  chopper_pos_x: 173
-  chopper_pos_y: 993
-  chopper_pos_z: -59
+  chopper_pos_ammo:
+    x: 173
+    y: 993
+    z: -56
+  chopper_pos_armors:
+    x: 173
+    y: 993
+    z: -58
+  chopper_pos_items:
+    x: 173
+    y: 993
+    z: -60
+  chopper_pos_weapons:
+    x: 173
+    y: 993
+    z: -62
   # Settings for Chaos Car Drop
   car_time: 600
   # Time difference between the chopper and car. Chopper will always spawn first. Leave at 1 if you want to disable it.
@@ -92,9 +105,22 @@ SD:
   # Should the plugin use coordinates set below to spawn the items? If not it will use random CI spawn point
   car_manual_coordinates: true
   # Coordinates used for the items spawn
-  car_pos_x: 9
-  car_pos_y: 998
-  car_pos_z: -49
+  car_pos_ammo:
+    x: 2
+    y: 989
+    z: -50
+  car_pos_armors:
+    x: 4.5
+    y: 989
+    z: -50
+  car_pos_items:
+    x: 7
+    y: 989
+    z: -50
+  car_pos_weapons:
+    x: 9.5
+    y: 989
+    z: -50
   # Don't use it unless you have issues with the plugin. When sending a log enable this please.
   debug: false
 ```
@@ -123,6 +149,9 @@ SD:
 
 #### How to get coordinates for the spawn?
 > Use RemoteAdmin coordinates. How? Just request player data, its in XYZ order.
+
+#### Why such a complicated coordinates system?
+> Well, I've heard complains that items fly away if you spawn a big pile of them so I wanted to change that, and this is the best system I believe. I made sure that default values will be the best so you don't have to mess with that.
 
 </details>
 

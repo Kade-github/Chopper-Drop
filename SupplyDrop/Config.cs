@@ -3,6 +3,7 @@ using System.ComponentModel;
 using Exiled.API.Interfaces;
 using SupplyDrop.Structs;
 using Exiled.API.Extensions;
+using UnityEngine;
 
 namespace SupplyDrop
 {
@@ -113,9 +114,10 @@ namespace SupplyDrop
         [Description("Should the plugin use coordinates set below to spawn the items? If not it will use random MTF spawn point")]
         public bool Chopper_ManualCoordinates { get; set; } = true;
         [Description("Coordinates used for the items spawn")]
-        public float Chopper_Pos_x { get; set; } = 173;
-        public float Chopper_Pos_y { get; set; } = 993;
-        public float Chopper_Pos_z { get; set; } = -59;
+        public Vector3 ChopperPos_Ammo { get; set; } = new Vector3(173f, 993f, -56f);
+        public Vector3 ChopperPos_Armors { get; set; } = new Vector3(173f, 993f, -58f);
+        public Vector3 ChopperPos_Items { get; set; } = new Vector3(173f, 993f, -60f);
+        public Vector3 ChopperPos_Weapons { get; set; } = new Vector3(173f, 993f, -62f);
 
         [Description("Settings for Chaos Car Drop")]
         public int Car_Time { get; set; } = 600;
@@ -128,9 +130,10 @@ namespace SupplyDrop
         [Description("Should the plugin use coordinates set below to spawn the items? If not it will use random CI spawn point")]
         public bool Car_ManualCoordinates { get; set; } = true;
         [Description("Coordinates used for the items spawn")]
-        public float Car_Pos_x { get; set; } = 9;
-        public float Car_Pos_y { get; set; } = 998;
-        public float Car_Pos_z { get; set; } = -49;
+        public Vector3 CarPos_Ammo { get; set; } = new Vector3(2f, 989f, -50f);
+        public Vector3 CarPos_Armors { get; set; } = new Vector3(4.5f, 989f, -50f);
+        public Vector3 CarPos_Items { get; set; } = new Vector3(7f, 989f, -50f);
+        public Vector3 CarPos_Weapons { get; set; } = new Vector3(9.5f, 989f, -50f);
         [Description("Don't use it unless you have issues with the plugin. When sending a log enable this please.")]
         public bool Debug { get; set; } = false;
     }

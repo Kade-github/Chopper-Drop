@@ -30,7 +30,7 @@ namespace SupplyDrop
             if (!Config.IsEnabled) // Enable config
                 return;
 
-            EventHandlers = new EventHandlers(this, Config.MinPlayers, Config.Chopper_Time, Config.Chopper_Broadcast, Config.Chopper_BroadcastTime, Config.Chopper_DropsLimit, Config.Chopper_ManualCoordinates, Config.Chopper_Pos_x, Config.Chopper_Pos_y, Config.Chopper_Pos_z, Config.Car_Time, Config.Time_Difference, Config.Car_Broadcast, Config.Car_BroadcastTime, Config.Car_DropsLimit, Config.Car_ManualCoordinates, Config.Car_Pos_x, Config.Car_Pos_y, Config.Car_Pos_z);
+            EventHandlers = new EventHandlers(this, Config.MinPlayers, Config.Chopper_Time, Config.Chopper_Broadcast, Config.Chopper_BroadcastTime, Config.Chopper_DropsLimit, Config.Chopper_ManualCoordinates, Config.ChopperPos_Ammo, Config.ChopperPos_Armors, Config.ChopperPos_Items, Config.ChopperPos_Weapons, Config.Car_Time, Config.Time_Difference, Config.Car_Broadcast, Config.Car_BroadcastTime, Config.Car_DropsLimit, Config.Car_ManualCoordinates, Config.CarPos_Ammo, Config.CarPos_Armors, Config.CarPos_Items, Config.CarPos_Weapons);
             Handlers.Server.RoundStarted += EventHandlers.RoundStart;
             Handlers.Server.WaitingForPlayers += EventHandlers.WaitingForPlayers;
 
