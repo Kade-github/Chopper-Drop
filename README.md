@@ -119,7 +119,7 @@ SD:
 > For MTF use the `chopper_time` value instead.
 
 #### How to get rid of the time difference between chopper and car?
-> Set the `time_difference` value to `1`.
+> Set the `time_difference` value to `1`. Not `-1`, not `0`, just `1`.
 
 #### How to get coordinates for the spawn?
 > Use RemoteAdmin coordinates. How? Just request player data, its in XYZ order.
