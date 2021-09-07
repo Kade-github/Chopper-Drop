@@ -111,14 +111,11 @@ namespace SupplyDrop
         public ushort ChopperBroadcastTime { get; set; } = 10;
         [Description("How many drops can the helicopter do per round? Set to -1 to disable limit.")]
         public int ChopperDropsLimit { get; set; } = -1;
-        [Description("Should the plugin use coordinates set below to spawn the items? If not it will use random MTF spawn point")]
-        public bool ChopperManualCoordinates { get; set; } = true;
-        [Description("Coordinates used for the items spawn. Set to 0's to disable")]
+        [Description("Coordinates used for the items spawn. Set to 0's to use random spawn point.")]
         public Vector3 ChopperPosAmmo { get; set; } = new Vector3(173f, 993f, -56f);
         public Vector3 ChopperPosArmors { get; set; } = new Vector3(173f, 993f, -58f);
         public Vector3 ChopperPosItems { get; set; } = new Vector3(173f, 993f, -60f);
         public Vector3 ChopperPosWeapons { get; set; } = new Vector3(173f, 993f, -62f);
-
         [Description("Settings for Chaos Car Drop")]
         public int CarTime { get; set; } = 600;
         [Description("Time difference between the chopper and car. Chopper will always spawn first. Leave at 1 if you want to disable it.")]
@@ -127,9 +124,7 @@ namespace SupplyDrop
         public ushort CarBroadcastTime { get; set; } = 10;
         [Description("How many drops can the car do per round? Set to -1 to disable limit.")]
         public int CarDropsLimit { get; set; } = -1;
-        [Description("Should the plugin use coordinates set below to spawn the items? If not it will use random CI spawn point")]
-        public bool CarManualCoordinates { get; set; } = true;
-        [Description("Coordinates used for the items spawn")]
+        [Description("Coordinates used for the items spawn. Set to 0's to use random spawn point.")]
         public Vector3 CarPosAmmo { get; set; } = new Vector3(2f, 989f, -50f);
         public Vector3 CarPosArmors { get; set; } = new Vector3(4.5f, 989f, -50f);
         public Vector3 CarPosItems { get; set; } = new Vector3(7f, 989f, -50f);
