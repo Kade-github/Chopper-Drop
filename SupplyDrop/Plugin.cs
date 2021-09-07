@@ -27,10 +27,7 @@ namespace SupplyDrop
         {
             Singleton = this;
 
-            if (!Config.IsEnabled) // Enable config
-                return;
-
-            EventHandlers = new EventHandlers(this, Config.MinPlayers, Config.Chopper_Time, Config.Chopper_Broadcast, Config.Chopper_BroadcastTime, Config.Chopper_DropsLimit, Config.Chopper_ManualCoordinates, Config.ChopperPos_Ammo, Config.ChopperPos_Armors, Config.ChopperPos_Items, Config.ChopperPos_Weapons, Config.Car_Time, Config.Time_Difference, Config.Car_Broadcast, Config.Car_BroadcastTime, Config.Car_DropsLimit, Config.Car_ManualCoordinates, Config.CarPos_Ammo, Config.CarPos_Armors, Config.CarPos_Items, Config.CarPos_Weapons);
+            EventHandlers = new EventHandlers(this);
             Handlers.Server.RoundStarted += EventHandlers.RoundStart;
             Handlers.Server.WaitingForPlayers += EventHandlers.WaitingForPlayers;
 
@@ -48,11 +45,6 @@ namespace SupplyDrop
 
             EventHandlers = null;
             base.OnDisabled();
-        }
-
-        public override void OnReloaded()
-        {
-            // empty
         }
     }
 }
