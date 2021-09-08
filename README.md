@@ -4,7 +4,7 @@
 Supply Drop is an Exiled plugin that makes the chopper and car drop supplies at the surface at the designated time.
 
 ## How to Use / Configure
-**Step 1:** Download the latest release from [here](https://github.com/HeavyWolfPL/Supply-Drop/releases/latest)
+**Step 1:** Download the latest release from [here](https://github.com/KadeDev/Chopper-Drop/releases/latest)
 
 **Step 2:** Place into your plugins folder.
 
